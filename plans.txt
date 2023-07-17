@@ -1,0 +1,13 @@
+Latest  Movies / Box Office Sidebar
+
+Adds image of movie name to side of watched
+
+add / delete review
+
+Navigation bar
+
+User Authentication
+
+Like review
+
+Date Watched
