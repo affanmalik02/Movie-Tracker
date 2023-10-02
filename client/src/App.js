@@ -156,6 +156,17 @@ function App() {
 		},
 	}*/
 
+	function generateStars(rating) {
+		let stars = '';
+		for (let i = 0; i < rating; i++) {
+			stars += '★';  // Filled star
+		}
+		for (let i = rating; i < 5; i++) {
+			stars += '☆';  // Empty star
+		}
+		return stars;
+	}
+
 	return (
 		<div className="App">
 			<Header />
@@ -235,10 +246,10 @@ function App() {
 
 							<div className="post">
 								<label>{movies.date}</label>
+    							<label>{generateStars(movies.rating)}</label>
 								<br></br>
 								<label>@{movies.username}</label>
 								<label>{movies.review}</label>
-								<label>{movies.rating}/5</label>
 							</div>
 
 							<div className="remove">
