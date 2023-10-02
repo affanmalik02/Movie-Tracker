@@ -43,6 +43,10 @@ cd mern-app/client
 npm install
 ```
 
+# Setup MongoDB
+
+update mongoose.connect URL in server/node_modules/index.js
+
 3. **Run the application**:
 
 # Start the server
