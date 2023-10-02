@@ -5,9 +5,21 @@ const MovieSchema = new mongoose.Schema({
       type: String,
       required: true,
    },
+   date:  {
+      type: String,
+      required: false,
+   },
    movie:  {
       type: String,
       required: true,
+   },
+   year:  {
+      type: Number,
+      required: false,
+   },
+   director:  {
+      type: String,
+      required: false,
    },
    rating:  {
       type: Number,
@@ -21,6 +33,7 @@ const MovieSchema = new mongoose.Schema({
       type: String,
       required: false,
    }
+   
 });
 
 const MovieModel = mongoose.model("movieLog", MovieSchema);

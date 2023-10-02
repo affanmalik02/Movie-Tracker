@@ -14,6 +14,9 @@ function App() {
 	//const [name, setName] = useState("");
 	const [username, setUsername] = useState("");
 	const [movie, setMovieName] = useState("");
+	const [date, setDate] = useState("");
+	const [year, getYear] = useState(0);
+	const [director, getDirector] = useState("");
 	const [rating, setRating] = useState(0)
 	const [review, setReview] = useState("");
 	const [posterURL, setPosterURL] = useState("");
@@ -42,56 +45,59 @@ function App() {
 
 	const logMovie = () => {
 		Axios.get(
-		  `https://api.themoviedb.org/3/search/movie?api_key=468ab2e093f216f9e2f589a684c85d92&query=${encodeURIComponent(
-			movie
-		  )}`
+		  `https://api.themoviedb.org/3/search/movie?api_key=468ab2e093f216f9e2f589a684c85d92&query=${encodeURIComponent(movie)}`
 		)
 		  .then((response) => {
-			if (response.data.results && response.data.results.length > 0) {
-			  const movieDetails = response.data.results[0];
-			  const posterURL = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
+				if (response.data.results && response.data.results.length > 0) {
+					const currentDate = new Date();
+					//const date = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
+					const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+					const date = `${monthNames[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
+					const movieDetails = response.data.results[0];
+					const posterURL = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
+					const year = movieDetails.release_date.split("-")[0];
 	  
-			  Axios.post("http://localhost:3001/logMovie", {
-				username,
-				movie,
-				rating,
-				review,
-				posterURL,
-			  }).then((response) => {
-				setListOfMovies([
-				  ...listOfMovies,
-				  {
+				// Save the movie data once
+				Axios.post("http://localhost:3001/logMovie", {
 					username,
+					date,
 					movie,
+					year,
+					director,
 					rating,
 					review,
 					posterURL,
-				  },
-				]);
-			  });
+				}).then(() => {
+					// Re-fetch all reviews
+					setReview("");
+					setMovieName("");
+					setRating(0);
+					Axios.get("http://localhost:3001/getMovies").then(response => {
+						setListOfMovies(response.data);
+					});
+			  	}).catch(error => {
+					console.error(error);
+			  	});
 			}
-		  })
-		  .catch((error) => {
+		}).catch((error) => {
 			console.error(error);
-		  });
-	  };
+		});
+	};
 
 	//Removes movie from MongoDB and updates list
-	const deleteMovie = (movieUsername, movieName) => {
+	const deleteMovie = (movieId) => {
 		Axios.delete('http://localhost:3001/deleteMovie', {
 			data: {
-			username: movieUsername,
-			movie: movieName
+				_id: movieId
 			}
 		})
 		.then((response) => {
 			if (response.status === 200) {
-			setListOfMovies((prevMovies) =>
-				prevMovies.filter((movie) =>
-				movie.username !== movieUsername || movie.movie !== movieName
-				)
-			);
+				setListOfMovies((prevMovies) =>
+					prevMovies.filter((movie) => movie._id !== movieId)
+				);
 			}
+			console.log(response.data);
 		})
 		.catch((error) => {
 			console.error(error);
@@ -150,68 +156,99 @@ function App() {
 		},
 	}*/
 
-
-
 	return (
 		<div className="App">
 			<Header />
-			<div className="header">
-				<input
-					type="text"
-					placeholder="Username..."
-					onChange={(event) => {
-						setUsername(event.target.value);
-					}}
-				/>
-				<input
-					type="text"
-					placeholder="Movie Watched..."
-					onChange={(event) => {
-						setMovieName(event.target.value);
-					}}
-				/>
-				<input
-					type="number"
-					placeholder="Rating..."
-					onChange={(event) => {
-						setRating(event.target.value);
-					}}
-				/>
-				<input
-					type="text"
-					placeholder="Review..."
-					onChange={(event) => {
-						setReview(event.target.value);
-					}}
-				/>
-				<button onClick={logMovie}> Log Movie </button>
-				<button onClick={movieDB}> Connect to MovieDB </button>
+
+			<div className="review">
+				<div className="left-section">
+					<label>
+						Name: 
+						<input
+							type="text"
+							placeholder=""
+							onChange={(event) => {
+								setUsername(event.target.value);
+							}}
+						/>
+					</label>
+					
+					<label>
+						Movie: 
+						<input
+							type="text"
+							value={movie} 
+							placeholder=""
+							onChange={(event) => {
+								setMovieName(event.target.value);
+							}}
+						/>
+					</label>
+
+					<label>
+					Rating: 
+						<input
+							type="number"
+							min="1"
+							max="5"
+							value={rating} 
+							placeholder=""
+							onChange={(event) => {
+								setRating(event.target.value);
+							}}
+						/>
+					</label>
+				</div>
+
+				<div className="right-section">
+					<label>
+						Review:
+						<br />
+						<textarea 
+							rows="4" 
+							cols="50"
+							value={review} 
+							placeholder=""
+							onChange={(event) => {
+								setReview(event.target.value);
+							}}
+						/>
+					</label>
+
+					<button onClick={logMovie}> Rate </button>
+				</div>
 			</div>
 
-			<div className="body">
+			<div className="reviews">
+				<label for="Reviews">Reviews:</label>
 				{listOfMovies.toReversed().map((movies) => {
 					return (
-						<div className="movie-container">
-							<div className="movie-details">
-								<h1>{movies.username} watched {movies.movie}</h1>
-								<h1>On </h1>
-								<h1>Rating: {movies.rating}</h1>
-								<h1>Review: {movies.review}</h1></div>
-								<button onClick={() => deleteMovie(movies.username, movies.movie)}> X </button>
-
-							<div className="poster">
-								<img src={movies.posterURL} alt="Movie Poster" width="250" height="375" />
+						<div className="review">
+							<div className="moviedata">
+								<img src={movies.posterURL} alt="Movie Poster" className="poster" />
+								<label>{movies.movie}</label>
+								<label>({movies.year})</label>
+								<label>{movies.director}</label>
 							</div>
 
-							<br></br>
-							<br></br>
+							<div className="review-post">
+								<label>{movies.date}</label>
+								<br></br>
+								<label>@{movies.username}</label>
+								<label>{movies.review}</label>
+								<label>{movies.rating}/5</label>
+							</div>
+
+							<div className="remove">
+								<button onClick={() => deleteMovie(movies._id)}> Remove </button>
+							</div>
 						</div>
 					);
 				})}
 			</div>
 
 			<div className="footer">
-				{/* Footer content */}
+				{<label>Affan Malik © 2023</label>}
 			</div>
 		</div>
 	);

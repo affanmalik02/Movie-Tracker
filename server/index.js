@@ -1,16 +1,19 @@
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
-//const UserModel = require("./models/Users");
-const MovieModel = require("./models/Movies");
-
 const cors = require("cors");
+const app = express();
+
+const ObjectId = require('mongoose').Types.ObjectId;
+
+//const UserModel = require("./models/Users");.
+const MovieModel = require("./models/Movies");
 
 app.use(express.json());
 app.use(cors());
 
 //mongoose.connect("mongodb+srv://userone:sesamestreet123@cluster0.tdij5nj.mongodb.net/test");
-mongoose.connect("mongodb+srv://userone:sesamestreet123@cluster0.tdij5nj.mongodb.net/database1?retryWrites=true&w=majority");
+//mongoose.connect("mongodb+srv://userone:sesamestreet123@cluster0.tdij5nj.mongodb.net/database1?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://test:MjOMlbuyotWJtEuy@cluster0.tdij5nj.mongodb.net/database1?retryWrites=true&w=majority")
 
 /*app.get("/getUsers", (req, res) => {
    UserModel.find().exec()
@@ -48,14 +51,18 @@ app.post("/logMovie", async (req, res) => {
 	res.json(movie);
 });
 
-app.delete("/deleteMovie/", async (req, res) => {
-	const {username, movie } = req.body;
+app.delete("/deleteMovie", async (req, res) => {
+	const movieId = req.body._id;
 
-	const deletedMovie = await MovieModel.findOneAndDelete({
-		username: username,
-		movie: movie,
-	});
-	res.json(deletedMovie);
+	// Use ObjectId to convert the string id to a MongoDB ObjectId
+	const deletedMovie = await MovieModel.findByIdAndDelete(new ObjectId(movieId));
+
+	// Check if a movie was actually deleted.
+	if (deletedMovie) {
+		res.json({ success: true, message: "Movie deleted successfully." });
+	} else {
+		res.status(404).json({ success: false, message: "Movie not found." });
+	}
 });
 
 app.listen(3001, () => {
