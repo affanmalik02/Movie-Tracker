@@ -2,6 +2,9 @@
 
 A comprehensive web application to review movies and see reviews added by others, built using the MERN stack (MongoDB, Express.js, React, Node.js).
 
+##  Preview
+![Movie Review App Preview](/screenshot.png)
+
 ## 🎥 Features
 
 - **Movie Information**: Find your favorite movies using the TMDb API.
@@ -20,35 +23,38 @@ A comprehensive web application to review movies and see reviews added by others
 
 1. **Clone the repository:**
 
-\'''bash
+'''
 git clone https://github.com/affanmalik02/mern-app.git
-cd mern-app
-\'''
+cd mern-app'''
 
 2. **Install dependencies for both backend and frontend**:
 
-\'''bash
 # Setup Server
+'''
 cd mern-app/server
 npm init  -y
 npm install express mongoose cors nodemon
+'''
 
 # Setup Client
+'''
 cd mern-app/client
 npm install
-\'''
+'''
 
 3. **Run the application**:
 
-\'''bash
 # Start the server
+'''
 cd mern-app/server
 node index.js
+'''
 
 # In a new terminal, start the client
+'''
 cd mern-app/client
 npm start
-\'''
+'''
 
 The app should now be running on `http://localhost:3000`.
 
