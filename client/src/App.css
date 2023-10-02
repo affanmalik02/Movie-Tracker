@@ -1,6 +1,6 @@
 .App {
 	text-align: center;
-	
+    background-color: #f5f7f9;  /* Muted background color similar to Letterboxd. */
 }
 
 .App-logo {
@@ -46,15 +46,13 @@
 	font-family: 'Helvetica Neue', Arial, sans-serif; 
 }
 
-
 label {
     display: block;
     margin-bottom: 0px;
 }
 
-.reviews {
+.page {
     padding: 5px;  
-	margin-top: 10px;
 	text-align: center;
 	font-family: 'Helvetica Neue', Arial, sans-serif; 
     background-color: #f5f7f9;  /* Muted background color similar to Letterboxd. */
@@ -62,39 +60,47 @@ label {
     line-height: 1;
 }
 
+.feed {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+ }
+
 .review {
 	align-items: center;
 	text-align: left;
     background-color: #ffffff;  /* Muted background color similar to Letterboxd. */
  }
 
-.review-post{
+.post{
 	font-family: 'Helvetica Neue', Arial, sans-serif; 
-    margin: 0;  
     color: #000000;  /* Dark gray text color. */
     line-height: 1.2;
 	flex: 1;
 	text-align: left;
-	
-	margin-top: -110px;
-	margin-left: 10px;
+	margin-top: -90px;
+	margin-left: 0px;
 }
 
 .remove{
 	font-family: 'Helvetica Neue', Arial, sans-serif; 
-	margin-top: -180px;
+	margin-top: -170px;
+	margin-right: 20px;
 }
 
 .poster {
 	flex-shrink: 0;
+	margin-top: 30px;
+	margin-bottom: 5px;
 	margin-left: 20px;
 	margin-right: 20px;
-	margin-top: 20px;
 	width: 120px;   /* Adjust as needed */
     height: auto;
  }
 
 .moviedata{
+	margin-top: -20px;
+	margin-bottom: -30px;
 	font-family: 'Helvetica Neue', Arial, sans-serif; 
 	text-align: center;
 }

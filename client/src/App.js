@@ -219,8 +219,10 @@ function App() {
 				</div>
 			</div>
 
-			<div className="reviews">
-				<label for="Reviews">Reviews:</label>
+			<div className="page">
+				<div className="feed">
+					<label for="Review Feed">Review Feed</label>
+				</div>
 				{listOfMovies.toReversed().map((movies) => {
 					return (
 						<div className="review">
@@ -231,7 +233,7 @@ function App() {
 								<label>{movies.director}</label>
 							</div>
 
-							<div className="review-post">
+							<div className="post">
 								<label>{movies.date}</label>
 								<br></br>
 								<label>@{movies.username}</label>
@@ -240,7 +242,7 @@ function App() {
 							</div>
 
 							<div className="remove">
-								<button onClick={() => deleteMovie(movies._id)}> Remove </button>
+								<button onClick={() => deleteMovie(movies._id)}> Delete </button>
 							</div>
 						</div>
 					);
