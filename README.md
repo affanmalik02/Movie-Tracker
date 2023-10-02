@@ -20,14 +20,14 @@ A comprehensive web application to review movies and see reviews added by others
 
 1. **Clone the repository:**
 
-\```bash
+\'''bash
 git clone https://github.com/affanmalik02/mern-app.git
 cd mern-app
-\```
+\'''
 
 2. **Install dependencies for both backend and frontend**:
 
-\```bash
+\'''bash
 # Setup Server
 cd mern-app/server
 npm init  -y
@@ -36,11 +36,11 @@ npm install express mongoose cors nodemon
 # Setup Client
 cd mern-app/client
 npm install
-\```
+\'''
 
 3. **Run the application**:
 
-\```bash
+\'''bash
 # Start the server
 cd mern-app/server
 node index.js
@@ -48,7 +48,7 @@ node index.js
 # In a new terminal, start the client
 cd mern-app/client
 npm start
-\```
+\'''
 
 The app should now be running on `http://localhost:3000`.
 
