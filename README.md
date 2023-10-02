@@ -3,7 +3,7 @@
 A comprehensive web application to review movies and see reviews added by others, built using the MERN stack (MongoDB, Express.js, React, Node.js).
 
 ##  Preview
-![Movie Review App Preview](/screenshot.jpg)
+![Movie Review App Preview](/preview.jpg)
 
 ## 🎥 Features
 
